@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Step Counter</title>
+</head>
+<body>
+
+<p>Steps: <span id="stepCount">0</span></p>
+
+<script>
+let stepCount = 0;
+
+// Check if the DeviceMotionEvent is supported
+if (window.DeviceMotionEvent) {
+  // Set up an event listener for the motion event
+  window.addEventListener('devicemotion', motionHandler, false);
+} else {
+  alert('DeviceMotionEvent is not supported on your device');
+}
+
+function motionHandler(event) {
+  // Get the acceleration including gravity
+  const acceleration = event.accelerationIncludingGravity;
+
+  // Calculate the total acceleration (ignoring the gravity component)
+  const totalAcceleration = Math.sqrt(
+    acceleration.x * acceleration.x +
+    acceleration.y * acceleration.y +
+    acceleration.z * acceleration.z
+  );
+
+  // Set a threshold for step detection
+  const accelerationThreshold = 12;
+
+  // Check if the total acceleration exceeds the threshold
+  if (totalAcceleration > accelerationThreshold) {
+    stepCount++;
+    document.getElementById('stepCount').innerText = stepCount;
+  }
+}
+</script>
+
+</body>
+</html>
